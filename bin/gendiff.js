@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 
-program
-  .name('')
-  .description('Compares two configuration files and shows a difference.')
-  .version('');
 
+program
+  .name('gendiff')
+  .arguments('<filepath1> <filepath2>')
+  .description('Compares two configuration files and shows a difference.')
+  .version('')
+  .option('-f, --format <type>', 'output format')
+  
 program.parse();
