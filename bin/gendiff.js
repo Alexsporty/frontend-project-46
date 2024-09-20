@@ -2,6 +2,7 @@
 import { program } from 'commander';
 import fs from 'fs';
 import path from 'path';
+import genDiff from '../src/index.js';
 
 program
   .name('gendiff')
@@ -14,9 +15,8 @@ program
     const file2 = fs.readFileSync(path.resolve(filepath2), 'utf8');
     const json1 = JSON.parse(file1);
     const json2 = JSON.parse(file2);
-    const diff = JSON.stringify(json1) !== JSON.stringify(json2)
-      ? 'Файлы отличаются'
-      : 'Файлы идентичны';
-      console.log(diff);
+    const diff = genDiff(json1, json2);
+    console.log(diff);
   });
+
 program.parse(process.argv);
