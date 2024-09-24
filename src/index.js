@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const genDiff = (obj1, obj2) => {
   const keys = [...new Set([...Object.keys(obj1), ...Object.keys(obj2)])];
   const sortedKeys = keys.sort();
