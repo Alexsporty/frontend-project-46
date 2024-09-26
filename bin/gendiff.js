@@ -2,7 +2,6 @@
 import { program } from 'commander';
 import fs from 'fs';
 import path from 'path';
-import { cwd } from 'process';
 import genDiff from '../src/index.js';
 
 program
@@ -21,4 +20,3 @@ program
   });
 
 program.parse(process.argv);
-
