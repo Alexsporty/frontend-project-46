@@ -30,9 +30,9 @@ describe('genDiff', () => {
   });
 
   test('should detect changed value for the same key', () => {
-    const obj1 = { key: 'value1' };
-    const obj2 = { key: 'value2' };
-    const expected = '{\n - key : value1\n + key : value2\n}';
+    const obj1 = { key1: 'value1' };
+    const obj2 = { key1: 'value2' };
+    const expected = '{\n - key1 : value1\n + key1 : value2\n}';
     expect(genDiff(obj1, obj2)).toEqual(expected);
   });
 
