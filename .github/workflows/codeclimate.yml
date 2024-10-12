@@ -7,10 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run CodeClimate Coverage
+    - name: Run CodeClimate Test Coverage
       run: |
         docker run --env CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN \
-  --volume "$(pwd)":/code \
-  --rm \
-  codeclimate/codeclimate \
-  test-reporter
+          --volume "$(pwd)":/code \
+          --rm \
+          codeclimate/codeclimate \
+          test-reporter
+      env:
+        CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
