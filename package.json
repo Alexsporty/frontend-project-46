@@ -16,7 +16,8 @@
     "commander": "^12.1.0",
     "file-system": "^2.2.2",
     "lodash": "^4.17.21",
-    "npm-path": "^2.0.4"
+    "npm-path": "^2.0.4",
+    "yaml": "^2.5.1"
   },
   "devDependencies": {
     "@eslint/create-config": "^1.0.0",
@@ -34,8 +35,11 @@
     "prettier": "^3.3.3"
   },
   "jest": {
-  "collectCoverage": true,
-  "coverageReporters": ["lcov", "text"],
-  "coverageDirectory": "coverage"
-}
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageDirectory": "coverage"
+  }
 }

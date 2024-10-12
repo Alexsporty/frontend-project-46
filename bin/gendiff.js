@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import fs from 'fs';
-import path from 'path';
-import genDiff from '../src/index.js';
+import genDiff, { parser } from '../phasad.js';
 
 program
   .name('gendiff')
@@ -10,13 +8,19 @@ program
   .description('Compares two configuration files and shows a difference.')
   .version('')
   .option('-f, --format <type>', 'output format')
-  .action((filepath1, filepath2) => {
-    const file1 = fs.readFileSync(path.resolve(process.cwd(), filepath1));
-    const file2 = fs.readFileSync(path.resolve(process.cwd(), filepath2));
-    const json1 = JSON.parse(file1);
-    const json2 = JSON.parse(file2);
-    const diff = genDiff(json1, json2);
-    console.log(diff);
+  .action((filepath1, filepath2, options) => {
+    const { format } = options;
+    try {
+      const json1 = parser(filepath1, format);
+      const json2 = parser(filepath2, format);
+      if (!json1 || !json2) {
+        throw new Error('One of the files could not be parsed.');
+      }
+      const diff = genDiff(json1, json2);
+      console.log(diff);
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
   });
 
 program.parse(process.argv);

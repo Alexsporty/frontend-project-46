@@ -1,4 +1,4 @@
-import genDiff from '../src/index.js';
+import genDiff from '../index.js';
 
 describe('genDiff', () => {
   test('should return empty object when both objects are empty', () => {
