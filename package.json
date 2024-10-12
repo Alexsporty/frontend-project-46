@@ -17,6 +17,7 @@
     "file-system": "^2.2.2",
     "lodash": "^4.17.21",
     "npm-path": "^2.0.4",
+    "test-reporter": "^0.0.24",
     "yaml": "^2.5.1"
   },
   "devDependencies": {
