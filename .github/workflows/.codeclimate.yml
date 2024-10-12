@@ -1,0 +1,16 @@
+name: CodeClimate Test Coverage
+
+on: [push, pull_request]
+
+jobs:
+  test-coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run CodeClimate Coverage
+      run: |
+        docker run \
+        --env CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN \
+        --volume "$(pwd)":/code \
+        --rm \
+        codeclimate/codeclimate test-reporter

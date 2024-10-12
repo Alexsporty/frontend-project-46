@@ -1,4 +1,4 @@
-import genDiff from '../index.js';
+import genDiff from '../phasad.js';
 
 describe('genDiff', () => {
   test('should return empty object when both objects are empty', () => {
