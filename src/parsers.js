@@ -12,4 +12,4 @@ const parser = (filepath, format) => {
   }
   throw new Error(`Unsupported format: ${format}`);
 };
-export { parser };
+export default parser;

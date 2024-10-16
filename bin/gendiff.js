@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import genDiff, { parser } from '../phasad.js';
+import { genDiff, parser } from '../phasad.js';
 
 program
   .name('gendiff')
