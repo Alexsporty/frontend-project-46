@@ -1,56 +1,110 @@
 import genDiff from '../phasad.js';
 
-describe('genDiff', () => {
-  test('should return empty object when both objects are empty', () => {
-    const obj1 = {};
-    const obj2 = {};
-    const expected = '{\n\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
+describe('diff function tests', () => {
+  test('Вложенные структуры', () => {
+    const tree1 = {
+      "common": {
+        "setting1": "Value 1",
+        "setting2": 200,
+        "setting3": true,
+        "setting6": {
+          "key": "value",
+          "doge": {
+            "wow": ""
+          }
+        }
+      },
+      "group1": {
+        "baz": "bas",
+        "foo": "bar",
+        "nest": {
+          "key": "value"
+        }
+      },
+      "group2": {
+        "abc": 12345,
+        "deep": {
+          "id": 45
+        }
+      }
+    }
 
-  test('should detect added key in second object', () => {
-    const obj1 = {};
-    const obj2 = { key: 'value' };
-    const expected = '{\n + key : value\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
+    const tree2 = {
+      "common": {
+        "follow": false,
+        "setting1": "Value 1",
+        "setting3": null,
+        "setting4": "blah blah",
+        "setting5": {
+          "key5": "value5"
+        },
+        "setting6": {
+          "key": "value",
+          "ops": "vops",
+          "doge": {
+            "wow": "so much"
+          }
+        }
+      },
+      "group1": {
+        "foo": "bar",
+        "baz": "bars",
+        "nest": "str"
+      },
+      "group3": {
+        "deep": {
+          "id": {
+            "number": 45
+          }
+        },
+        "fee": 100500
+      }
+    }
 
-  test('should detect added key in first object', () => {
-    const obj1 = { key: 'value' };
-    const obj2 = {};
-    const expected = '{\n - key : value\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
-
-  test('should detect unchanged key', () => {
-    const obj1 = { key: 'value' };
-    const obj2 = { key: 'value' };
-    const expected = '{\n   key : value\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
-
-  test('should detect changed value for the same key', () => {
-    const obj1 = { key: 'value1' };
-    const obj2 = { key: 'value2' };
-    const expected = '{\n - key : value1\n + key : value2\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
-
-  test('should handle multiple keys with different changes', () => {
-    const obj1 = { a: 1, b: 2, c: 3 };
-    const obj2 = { a: 1, b: 3, d: 4 };
-    const expected = '{\n   a : 1\n - b : 2\n + b : 3\n - c : 3\n + d : 4\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
-
-  test('should sort keys alphabetically', () => {
-    const obj1 = {
-      a: 1, b: 2, c: 3, d: 4,
-    };
-    const obj2 = {
-      b: 2, c: 3, a: 1, d: 4,
-    };
-    const expected = '{\n   a : 1\n   b : 2\n   c : 3\n   d : 4\n}';
-    expect(genDiff(obj1, obj2)).toEqual(expected);
-  });
+    const result = `{
+      common: {
+        + follow: false
+          setting1: Value 1
+        - setting2: 200
+        - setting3: true
+        + setting3: null
+        + setting4: blah blah
+        + setting5: {
+            key5: value5
+        }
+          setting6: {
+              doge: {
+                - wow: 
+                + wow: so much
+              }
+              key: value
+            + ops: vops
+          }
+      }
+      group1: {
+        - baz: bas
+        + baz: bars
+          foo: bar
+        - nest: {
+            key: value
+        }
+        + nest: str
+      }
+    - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+    + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}`
+expect(genDiff(tree1, tree2)).toEqual(result);
+  })
 });
