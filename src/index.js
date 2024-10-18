@@ -8,10 +8,9 @@ const genDiff = (filepath1, filepath2, format) => {
     if (!file1 || !file2) {
       throw new Error('One of the files could not be parsed.');
     }
-    return compareTrees(file1, file2);
+    return compareTrees(file1, file2, 1);
   } catch (error) {
-    throw new Error(`Error: ${error.message}`);
+    console.error(`Error: ${error.message}`);
   }
-  
 };
 export default genDiff;
