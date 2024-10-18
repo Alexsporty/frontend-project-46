@@ -19,4 +19,4 @@ make install
 ```bash
 make test
 ```
-https://asciinema.org/a/676854 genDiff
+https://asciinema.org/a/681731 genDiff

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { genDiff, parser } from '../phasad.js';
+import { genDiff } from '../phasad.js';
 
 program
   .name('gendiff')
@@ -8,19 +8,9 @@ program
   .description('Compares two configuration files and shows a difference.')
   .version('')
   .option('-f, --format <type>', 'output format')
-  .action((filepath1, filepath2, options) => {
-    const { format } = options;
-    try {
-      const json1 = parser(filepath1, format);
-      const json2 = parser(filepath2, format);
-      if (!json1 || !json2) {
-        throw new Error('One of the files could not be parsed.');
-      }
-      const diff = genDiff(json1, json2);
-      console.log(diff);
-    } catch (error) {
-      console.error(`Error: ${error.message}`);
-    }
+  .action((filepath1, filepath2) => {
+    const diff = genDiff(filepath1, filepath2, 'json');
+    console.log(diff);
   });
 
 program.parse(process.argv);

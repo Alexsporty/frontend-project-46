@@ -1,4 +1,4 @@
-import genDiff from '../phasad.js';
+import { genDiff } from '../phasad.js';
 
 describe('diff function tests', () => {
   test('Вложенные структуры', () => {
@@ -104,6 +104,71 @@ describe('diff function tests', () => {
         }
         fee: 100500
     }
+}`;
+    expect(genDiff(tree1, tree2)).toEqual(result);
+  });
+
+  test('Изменение объектов', () => {
+    const tree1 = {
+      group1: {
+        key: 'value',
+      },
+    };
+    const tree2 = {
+      group1: {
+        key: 'value',
+        newKey: 'newValue',
+      },
+    };
+    const result = `{
+      group1: {
+          key: value
+        + newKey: newValue
+      }
+}`;
+    expect(genDiff(tree1, tree2)).toEqual(result);
+  });
+
+  test('Удаление ключей', () => {
+    const tree1 = {
+      key1: 'value1',
+      key2: 'value2',
+    };
+    const tree2 = {
+      key1: 'value1',
+    };
+    const result = `{
+      key1: value1
+    - key2: value2
+}`;
+    expect(genDiff(tree1, tree2)).toEqual(result);
+  });
+
+  test('Добавление ключей', () => {
+    const tree1 = {
+      key1: 'value1',
+    };
+    const tree2 = {
+      key1: 'value1',
+      key2: 'value2',
+    };
+    const result = `{
+      key1: value1
+    + key2: value2
+}`;
+    expect(genDiff(tree1, tree2)).toEqual(result);
+  });
+
+  test('Изменение значений', () => {
+    const tree1 = {
+      key1: 'value1',
+    };
+    const tree2 = {
+      key1: 'value2',
+    };
+    const result = `{
+    - key1: value1
+    + key1: value2
 }`;
     expect(genDiff(tree1, tree2)).toEqual(result);
   });
