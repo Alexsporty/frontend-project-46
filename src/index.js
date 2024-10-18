@@ -10,7 +10,8 @@ const genDiff = (filepath1, filepath2, format) => {
     }
     return compareTrees(file1, file2);
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    throw new Error(`Error: ${error.message}`);
   }
+  
 };
 export default genDiff;
