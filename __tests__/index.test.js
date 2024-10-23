@@ -1,6 +1,7 @@
 import { genDiff, parser } from '../phasad.js';
-import formatValue from '../src/formatters/stylish.js';
+import formatStructured from '../src/formatters/formatStructured.js';
 import compareTrees from '../src/compareTrees.js';
+import formatPlain from '../src/formatters/formatPlain.js';
 
 describe('parser', () => {
   test('parses JSON file', () => {
@@ -65,44 +66,138 @@ describe('parser', () => {
   });
 });
 
-describe('formatValue', () => {
-  test('formats a flat object correctly', () => {
-    const result = formatValue({ key: 'value' }, 0);
-    expect(result).toBe('{\n    key: value\n}');
+describe('formatStructured', () => {
+  it('should format added property correctly', () => {
+    const diff = [
+      { key: 'property1', type: 'added', val: 'value1' },
+    ];
+
+    const expected = '    + property1: value1';
+    expect(formatStructured(diff)).toBe(expected);
   });
 
-  test('formats a nested object correctly', () => {
-    const result = formatValue({ key: { nestedKey: 'value' } }, 0);
-    expect(result).toBe('{\n    key: {\n        nestedKey: value\n    }\n}');
+  it('should format removed property correctly', () => {
+    const diff = [
+      { key: 'property1', type: 'removed', val: 'value1' },
+    ];
+
+    const expected = '    - property1: value1';
+    expect(formatStructured(diff)).toBe(expected);
+  });
+
+  it('should format updated property correctly', () => {
+    const diff = [
+      {
+        key: 'property1', type: 'updated', val1: 'oldValue', val2: 'newValue',
+      },
+    ];
+
+    const expected = '    - property1: oldValue\n    + property1: newValue';
+    expect(formatStructured(diff)).toBe(expected);
+  });
+
+  it('should format nested properties correctly', () => {
+    const diff = [
+      {
+        key: 'parent',
+        type: 'nested',
+        children: [
+          { key: 'child1', type: 'added', val: 'value1' },
+          { key: 'child2', type: 'removed', val: 'value2' },
+        ],
+      },
+    ];
+
+    const expected = '    parent: {\n        + child1: value1\n        - child2: value2\n    }';
+    expect(formatStructured(diff)).toBe(expected);
+  });
+
+  it('should format complex objects correctly', () => {
+    const diff = [
+      {
+        key: 'parent',
+        type: 'added',
+        val: {
+          child1: 'value1',
+          child2: {
+            subchild1: 'subvalue1',
+            subchild2: 'subvalue2',
+          },
+        },
+      },
+    ];
+
+    const expected = '    + parent: {\n        child1: value1\n        child2: {\n            subchild1: subvalue1\n            subchild2: subvalue2\n        }\n    }';
+    expect(formatStructured(diff)).toBe(expected);
+  });
+
+  it('should handle unchanged properties', () => {
+    const diff = [
+      { key: 'property1', type: 'same', val: 'value1' },
+    ];
+
+    const expected = '      property1: value1';
+    expect(formatStructured(diff)).toBe(expected);
   });
 });
 
 describe('compareTrees', () => {
-  test('compares two identical objects', () => {
-    const obj1 = { key: 'value' };
-    const obj2 = { key: 'value' };
-    const result = '      key: value';
-    expect(compareTrees(obj1, obj2)).toEqual(result);
+  const tree1 = {
+    common: {
+      setting1: 'Value 1',
+      setting2: 200,
+      setting3: true,
+    },
+    group1: {
+      foo: 'bar',
+    },
+  };
+
+  const tree2 = {
+    common: {
+      setting1: 'Value 1',
+      setting3: null,
+      setting4: 'blah blah',
+    },
+    group1: {
+      foo: 'bar',
+    },
+  };
+
+  test('should detect added, removed, and updated fields', () => {
+    const diff = compareTrees(tree1, tree2);
+
+    expect(diff).toEqual([
+      {
+        key: 'common',
+        type: 'nested',
+        children: [
+          { key: 'setting1', type: 'same', val: 'Value 1' },
+          { key: 'setting2', type: 'removed', val: 200 },
+          {
+            key: 'setting3', type: 'updated', val1: true, val2: null,
+          },
+          { key: 'setting4', type: 'added', val: 'blah blah' },
+        ],
+      },
+      {
+        key: 'group1',
+        type: 'nested',
+        children: [
+          { key: 'foo', type: 'same', val: 'bar' },
+        ],
+      },
+    ]);
   });
 
-  test('compares two different objects', () => {
-    const obj1 = { key: 'value1' };
-    const obj2 = { key: 'value2' };
-    const result = '    - key: value1\n    + key: value2';
-    expect(compareTrees(obj1, obj2)).toBe(result);
+  test('should handle empty objects', () => {
+    expect(compareTrees({}, {})).toEqual([]);
   });
-});
-
-test('compares nested objects', () => {
-  const obj1 = { key: { nestedKey: 'value1' } };
-  const obj2 = { key: { nestedKey: 'value2' } };
-  const result = '      key: {\n        - nestedKey: value1\n        + nestedKey: value2\n      }';
-  expect(compareTrees(obj1, obj2)).toBe(result);
 });
 
 describe('genDiff', () => {
   test('generates diff for two JSON files', () => {
-    const json = `      common: {
+    const json = `    common: {
         + follow: false
           setting1: Value 1
         - setting2: 200
@@ -112,16 +207,16 @@ describe('genDiff', () => {
         + setting5: {
             key5: value5
         }
-          setting6: {
-              doge: {
+        setting6: {
+            doge: {
                 - wow: 
                 + wow: so much
-              }
+            }
               key: value
             + ops: vops
-          }
-      }
-      group1: {
+        }
+    }
+    group1: {
         - baz: bas
         + baz: bars
           foo: bar
@@ -129,7 +224,7 @@ describe('genDiff', () => {
             key: value
         }
         + nest: str
-      }
+    }
     - group2: {
         abc: 12345
         deep: {
@@ -147,3 +242,4 @@ describe('genDiff', () => {
     expect(genDiff('file1.json', 'file2.json', 'json')).toBe(json);
   });
 });
+

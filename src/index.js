@@ -1,14 +1,20 @@
 import compareTrees from './compareTrees.js';
 import parser from './parsers.js';
+import formatStructured from './formatters/formatStructured.js';
+import formatPlain from './formatters/formatPlain.js';
 
-const genDiff = (filepath1, filepath2, format) => {
+const genDiff = (filepath1, filepath2, format = 'structured') => {
   try {
-    const file1 = parser(filepath1, format);
-    const file2 = parser(filepath2, format);
+    const file1 = parser(filepath1);
+    const file2 = parser(filepath2);
     if (!file1 || !file2) {
       throw new Error('One of the files could not be parsed.');
     }
-    return compareTrees(file1, file2, 1);
+    const diff = compareTrees(file1, file2);
+    if (format === 'plain') {
+      return formatPlain(diff);
+    }
+    return formatStructured(diff);
   } catch (error) {
     console.error(`Error: ${error.message}`);
   }

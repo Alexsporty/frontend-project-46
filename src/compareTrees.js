@@ -1,28 +1,27 @@
-import formatValue from './formatters/stylish.js';
-
 const isObject = (value) => typeof value === 'object' && value !== null;
 
-const compareTrees = (obj1, obj2, depth = 1) => {
+const compareTrees = (obj1, obj2) => {
   const keys = [...new Set([...Object.keys(obj1), ...Object.keys(obj2)])].sort();
-  const indent = ' '.repeat(depth * 4);
 
   const result = keys.map((key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
     if (!(key in obj2)) {
-      return `${indent}- ${key}: ${formatValue(value1, depth)}`;
+      return { key, type: 'removed', val: value1 };
     }
     if (!(key in obj1)) {
-      return `${indent}+ ${key}: ${formatValue(value2, depth)}`;
+      return { key, type: 'added', val: value2 };
     }
     if (isObject(value1) && isObject(value2)) {
-      return `${indent}  ${key}: {\n${compareTrees(value1, value2, depth + 1)}\n${indent}  }`;
+      return { key, type: 'nested', children: compareTrees(value1, value2) };
     }
     if (value1 !== value2) {
-      return `${indent}- ${key}: ${formatValue(value1, depth)}\n${indent}+ ${key}: ${formatValue(value2, depth)}`;
+      return {
+        key, type: 'updated', val1: value1, val2: value2,
+      };
     }
-    return `${indent}  ${key}: ${formatValue(value1, depth)}`;
+    return { key, type: 'same', val: value1 };
   });
-  return result.join('\n');
+  return result;
 };
 export default compareTrees;

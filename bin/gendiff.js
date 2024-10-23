@@ -7,9 +7,10 @@ program
   .arguments('<filepath1> <filepath2>')
   .description('Compares two configuration files and shows a difference.')
   .version('')
-  .option('-f, --format <type>', 'output format')
-  .action((filepath1, filepath2) => {
-    const diff = genDiff(filepath1, filepath2, 'yaml');
+  .option('-f, --format <type>', 'output format', 'structured')
+  .action((filepath1, filepath2, options) => {
+    const format = options.format || 'structured';
+    const diff = genDiff(filepath1, filepath2, format);
     console.log(diff);
   });
 
