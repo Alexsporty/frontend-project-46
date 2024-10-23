@@ -1,6 +1,6 @@
 import compareTrees from './compareTrees.js';
 import parser from './parsers.js';
-import formatStructured from './formatters/formatStructured.js';
+import formatStylish from './formatters/formatStylish.js';
 import formatPlain from './formatters/formatPlain.js';
 
 const genDiff = (filepath1, filepath2, format = 'structured') => {
@@ -14,7 +14,7 @@ const genDiff = (filepath1, filepath2, format = 'structured') => {
     if (format === 'plain') {
       return formatPlain(diff);
     }
-    return formatStructured(diff);
+    return formatStylish(diff);
   } catch (error) {
     console.error(`Error: ${error.message}`);
   }

@@ -1,7 +1,7 @@
 import { genDiff, parser } from '../phasad.js';
-import formatStructured from '../src/formatters/formatStructured.js';
+import formatStylish from '../src/formatters/formatStylish.js';
 import compareTrees from '../src/compareTrees.js';
-import formatPlain from '../src/formatters/formatPlain.js';
+
 
 describe('parser', () => {
   test('parses JSON file', () => {
@@ -66,14 +66,14 @@ describe('parser', () => {
   });
 });
 
-describe('formatStructured', () => {
+describe('formatStylish', () => {
   it('should format added property correctly', () => {
     const diff = [
       { key: 'property1', type: 'added', val: 'value1' },
     ];
 
     const expected = '    + property1: value1';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 
   it('should format removed property correctly', () => {
@@ -82,7 +82,7 @@ describe('formatStructured', () => {
     ];
 
     const expected = '    - property1: value1';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 
   it('should format updated property correctly', () => {
@@ -93,7 +93,7 @@ describe('formatStructured', () => {
     ];
 
     const expected = '    - property1: oldValue\n    + property1: newValue';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 
   it('should format nested properties correctly', () => {
@@ -109,7 +109,7 @@ describe('formatStructured', () => {
     ];
 
     const expected = '    parent: {\n        + child1: value1\n        - child2: value2\n    }';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 
   it('should format complex objects correctly', () => {
@@ -128,7 +128,7 @@ describe('formatStructured', () => {
     ];
 
     const expected = '    + parent: {\n        child1: value1\n        child2: {\n            subchild1: subvalue1\n            subchild2: subvalue2\n        }\n    }';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 
   it('should handle unchanged properties', () => {
@@ -137,7 +137,7 @@ describe('formatStructured', () => {
     ];
 
     const expected = '      property1: value1';
-    expect(formatStructured(diff)).toBe(expected);
+    expect(formatStylish(diff)).toBe(expected);
   });
 });
 
@@ -242,4 +242,3 @@ describe('genDiff', () => {
     expect(genDiff('file1.json', 'file2.json', 'json')).toBe(json);
   });
 });
-
