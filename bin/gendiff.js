@@ -2,6 +2,7 @@
 import { program } from 'commander';
 import { genDiff } from '../phasad.js';
 
+
 program
   .name('gendiff')
   .arguments('<filepath1> <filepath2>')
@@ -14,4 +15,4 @@ program
     console.log(diff);
   });
 
-program.parse();
+program.parse(process.argv);
