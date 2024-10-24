@@ -1,12 +1,9 @@
 import fs from 'fs';
-import path, { dirname } from 'path';
+import path from 'path';
 import yaml from 'js-yaml';
-import { fileURLToPath } from 'url';
 
 const parser = (filepath) => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const fullPath = path.join(__dirname, '..', '__fixtures__', filepath);
+  const fullPath = path.resolve(process.cwd(), filepath);
   const fileContent = fs.readFileSync(fullPath, 'utf-8');
   const ext = path.extname(filepath);
   if (ext === '.json') {
