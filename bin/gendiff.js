@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { genDiff } from '../phasad.js';
-
-
+import { genDiff } from '../index.js';
 
 program
   .name('gendiff')
@@ -11,8 +9,7 @@ program
   .version('1.0.0')
   .option('-f, --format <type>', 'output format', 'structured')
   .action((filepath1, filepath2, options) => {
-    
-    const format = options.format;
+    const { format } = options;
     const diff = genDiff(filepath1, filepath2, format);
     console.log(diff);
   });

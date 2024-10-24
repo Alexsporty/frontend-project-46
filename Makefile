@@ -7,25 +7,24 @@ publish:
 help:
 	node bin\gendiff.js -h
 
-runStructured:
-	gendiff '.\__fixtures__\file1.json' '.\__fixtures__\file2.json' --format stylish
+runStylish:
+	gendiff --format stylish file1.json file2.json 
 
 runPlain:
-	gendiff '.\__fixtures__\file1.json' '.\__fixtures__\file2.json' --format plain
+	gendiff --format plain file1.json file2.json 
 
 runJson:
-	gendiff '.\__fixtures__\file1.json' '.\__fixtures__\file2.json' --format json
-
-test:
-	npm test
-
-test-coverage:
-	npm test -- --coverage --coverageProvider=v8
+	gendiff --format json file1.json file2.json
 
 lint:
-	npx eslint .
+	npx eslint
 
-publish:
-	npm publish
+lint-fix:
+	npx eslint --fix .
 
-.PHONY: test
+tests:
+	npm test --watchAll
+	npx jest --coverage
+
+test-coverage:
+	npm test --coverage --coverageProvider=v8

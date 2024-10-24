@@ -1,7 +1,6 @@
-import { genDiff, parser } from '../phasad.js';
+import { genDiff, parser } from '../index.js';
 import formatStylish from '../src/formatters/formatStylish.js';
 import compareTrees from '../src/compareTrees.js';
-
 
 describe('parser', () => {
   test('parses JSON file', () => {
