@@ -8,13 +8,13 @@ help:
 	node bin\gendiff.js -h
 
 runStylish:
-	gendiff --format stylish file1.json file2.json 
+	gendiff __fixtures__/file1.json __fixtures__/file2.json --format stylish
 
 runPlain:
-	gendiff --format plain file1.json file2.json 
+	gendiff __fixtures__/file1.json __fixtures__/file2.json --format plain 
 
 runJson:
-	gendiff --format json file1.json file2.json
+	gendiff __fixtures__/file1.json __fixtures__/file2.json --format json
 
 lint:
 	npx eslint

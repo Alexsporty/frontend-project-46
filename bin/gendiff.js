@@ -2,6 +2,8 @@
 import { program } from 'commander';
 import { genDiff } from '../index.js';
 
+
+
 program
   .name('gendiff')
   .arguments('<filepath1> <filepath2>')

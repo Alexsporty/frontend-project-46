@@ -6,10 +6,10 @@ const formatValue = (value, depth) => {
       .join('\n');
     return `{\n${entries}\n${' '.repeat(depth * 4)}}`;
   }
-  return value;
+  return String(value);
 };
 const formatStructured = (diff, depth = 1) => {
-  const indent = (level) => ' '.repeat(level * 4);
+  const indent = (level) => ' '.repeat(level * 2);
 
   const result = diff.map((item) => {
     const { key, type } = item;
