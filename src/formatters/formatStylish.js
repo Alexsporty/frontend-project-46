@@ -9,11 +9,10 @@ const formatValue = (value, depth) => {
   return String(value);
 };
 const formatStylish = (diff, depth = 1) => {
-  const indent = (level) => ' '.repeat(level * 4 - 2);
 
   const result = diff.map((item) => {
     const { key, type } = item;
-    const currentIndent = indent(depth);
+    const currentIndent = ' '.repeat(4 * depth - 2);;
 
     switch (type) {
       case 'added':
