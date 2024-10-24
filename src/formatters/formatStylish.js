@@ -1,15 +1,15 @@
 const formatValue = (value, depth) => {
   if (typeof value === 'object' && value !== null) {
-    const indent = ' '.repeat((depth + 1) * 4);
+    const indent = ' '.repeat((depth + 1) * 4 - 2);
     const entries = Object.entries(value)
-      .map(([key, val]) => `${indent}${key}: ${formatValue(val, depth + 1)}`)
+      .map(([key, val]) => `${indent}  ${key}: ${formatValue(val, depth + 1)}`)
       .join('\n');
     return `{\n${entries}\n${' '.repeat(depth * 4)}}`;
   }
   return String(value);
 };
-const formatStructured = (diff, depth = 1) => {
-  const indent = (level) => ' '.repeat(level * 4);
+const formatStylish = (diff, depth = 1) => {
+  const indent = (level) => ' '.repeat(level * 4 - 2);
 
   const result = diff.map((item) => {
     const { key, type } = item;
@@ -23,7 +23,7 @@ const formatStructured = (diff, depth = 1) => {
       case 'updated':
         return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
       case 'nested':
-        return `${currentIndent}${key}: {\n${formatStructured(item.children, depth + 1)}\n${indent(depth)}}`;
+        return `${currentIndent}${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent(depth)}}`;
       default:
         return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
     }
@@ -32,4 +32,4 @@ const formatStructured = (diff, depth = 1) => {
   return result;
 };
 
-export default formatStructured;
+export default formatStylish;
