@@ -22,7 +22,7 @@ const formatStylish = (diff, depth = 1) => {
       case 'updated':
         return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
       case 'nested':
-        return `${currentIndent}${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent(depth)}}`;
+        return `${currentIndent}${key}: {\n${formatStylish(item.children, depth + 1)}\n${currentIndent}}`;
       default:
         return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
     }
