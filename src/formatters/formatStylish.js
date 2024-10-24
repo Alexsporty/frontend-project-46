@@ -9,7 +9,7 @@ const formatValue = (value, depth) => {
   return String(value);
 };
 const formatStructured = (diff, depth = 1) => {
-  const indent = (level) => ' '.repeat(level * 2);
+  const indent = (level) => ' '.repeat(level * 4);
 
   const result = diff.map((item) => {
     const { key, type } = item;
