@@ -9,6 +9,7 @@ const formatValue = (value, depth) => {
   return String(value);
 };
 const formatStylish = (diff, depth = 1) => {
+  const indent = (level) => ' '.repeat(level * 4 - 2);
 
   const result = diff.map((item) => {
     const { key, type } = item;
@@ -22,7 +23,7 @@ const formatStylish = (diff, depth = 1) => {
       case 'updated':
         return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
       case 'nested':
-        return `${currentIndent}${key}: {\n${formatStylish(item.children, depth + 1)}\n${currentIndent}}`;
+        return `${currentIndent}${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent(depth)}}`;
       default:
         return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
     }
