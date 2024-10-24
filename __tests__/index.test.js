@@ -1,6 +1,6 @@
 import { dirname } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 import { genDiff, parser } from '../index.js';
 import formatStylish from '../src/formatters/formatStylish.js';
 import compareTrees from '../src/compareTrees.js';
@@ -10,12 +10,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+
 
 
 describe('parser', () => {
   test('parses JSON file', () => {
-    const json = parser('file1.json', 'json');
+    
+    const json = parser(getFixturePath('file1.json'));
     const result = {
       common: {
         setting1: 'Value 1',
@@ -45,7 +46,7 @@ describe('parser', () => {
     expect(json).toEqual(result);
   });
   test('parses YAML file', () => {
-    const json = parser('file1.yaml', 'yml');
+    const json = parser(getFixturePath('file1.yaml'));
     const result = {
       common: {
         setting1: 'Value 1',
@@ -219,7 +220,7 @@ describe('genDiff', () => {
         }
         setting6: {
             doge: {
-                - wow: 
+                - wow:
                 + wow: so much
             }
               key: value
