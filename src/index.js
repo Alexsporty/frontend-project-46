@@ -3,7 +3,7 @@ import parser from './parsers.js';
 import formatStylish from './formatters/formatStylish.js';
 import formatPlain from './formatters/formatPlain.js';
 
-const genDiff = (filepath1, filepath2, format = 'structured') => {
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
   try {
     const file1 = parser(filepath1);
     const file2 = parser(filepath2);
