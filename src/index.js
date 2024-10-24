@@ -17,6 +17,7 @@ const genDiff = (filepath1, filepath2, format = 'structured') => {
     return formatStylish(diff);
   } catch (error) {
     console.error(`Error: ${error.message}`);
+    return `Error: ${error.message}`;
   }
 };
 export default genDiff;
