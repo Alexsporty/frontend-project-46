@@ -116,7 +116,7 @@ describe('formatStylish', () => {
       },
     ];
 
-    const expected = '  parent: {\n      + child1: value1\n      - child2: value2\n    }';
+    const expected = '    parent: {\n      + child1: value1\n      - child2: value2\n    }';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -135,7 +135,7 @@ describe('formatStylish', () => {
       },
     ];
 
-    const expected = '  + parent: {\n          child1: value1\n          child2: {\n              subchild1: subvalue1\n              subchild2: subvalue2\n        }\n    }';
+    const expected = '  + parent: {\n        child1: value1\n        child2: {\n            subchild1: subvalue1\n            subchild2: subvalue2\n        }\n    }';
     expect(formatStylish(diff)).toBe(expected);
   });
 

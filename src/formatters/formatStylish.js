@@ -5,7 +5,7 @@ const formatValue = (value, depth) => {
     const entries = Object.entries(value)
       .map(([key, val]) => `${indent}  ${key}: ${formatValue(val, depth + 1)}`)
       .join('\n');
-    return `{\n${entries}\n${replacer.repeat(4 * depth - 2)}}`;
+    return `{\n${entries}\n${replacer.repeat(depth * 4 - 2)}  }`;
   }
   return String(value);
 };
@@ -14,7 +14,7 @@ const formatStylish = (diff, depth = 1) => {
 
   const result = diff.map((item) => {
     const { key, type } = item;
-    const currentIndent = ' '.repeat(2 * depth);;
+    const currentIndent = ' '.repeat(4 * depth - 2);
     
     switch (type) {
       case 'added':
