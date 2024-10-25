@@ -5,7 +5,7 @@ const formatValue = (value, depth) => {
     const entries = Object.entries(value)
       .map(([key, val]) => `${indent}  ${key}: ${formatValue(val, depth + 1)}`)
       .join('\n');
-    return `{\n${entries}\n${replacer.repeat(depth * 4)}}`;
+    return `{\n${entries}\n${replacer.repeat(depth * 2)}}`;
   }
   return String(value);
 };
