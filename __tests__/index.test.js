@@ -80,7 +80,7 @@ describe('formatStylish', () => {
       { key: 'property1', type: 'added', val: 'value1' },
     ];
 
-    const expected = '    + property1: value1';
+    const expected = '  + property1: value1';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -89,7 +89,7 @@ describe('formatStylish', () => {
       { key: 'property1', type: 'removed', val: 'value1' },
     ];
 
-    const expected = '    - property1: value1';
+    const expected = '  - property1: value1';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -100,7 +100,7 @@ describe('formatStylish', () => {
       },
     ];
 
-    const expected = '    - property1: oldValue\n    + property1: newValue';
+    const expected = '  - property1: oldValue\n  + property1: newValue';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -116,7 +116,7 @@ describe('formatStylish', () => {
       },
     ];
 
-    const expected = '    parent: {\n        + child1: value1\n        - child2: value2\n    }';
+    const expected = '  parent: {\n      + child1: value1\n      - child2: value2\n    }';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -135,7 +135,7 @@ describe('formatStylish', () => {
       },
     ];
 
-    const expected = '    + parent: {\n        child1: value1\n        child2: {\n            subchild1: subvalue1\n            subchild2: subvalue2\n        }\n    }';
+    const expected = '  + parent: {\n          child1: value1\n          child2: {\n              subchild1: subvalue1\n              subchild2: subvalue2\n        }\n    }';
     expect(formatStylish(diff)).toBe(expected);
   });
 
@@ -144,7 +144,7 @@ describe('formatStylish', () => {
       { key: 'property1', type: 'same', val: 'value1' },
     ];
 
-    const expected = '      property1: value1';
+    const expected = '    property1: value1';
     expect(formatStylish(diff)).toBe(expected);
   });
 });

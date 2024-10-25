@@ -15,7 +15,7 @@ const formatStylish = (diff, depth = 1) => {
   const result = diff.map((item) => {
     const { key, type } = item;
     const currentIndent = ' '.repeat(4 * depth - 2);;
-
+    
     switch (type) {
       case 'added':
         return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
