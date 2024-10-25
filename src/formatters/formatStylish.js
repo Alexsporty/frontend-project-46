@@ -2,7 +2,7 @@ const formatValue = (value, depth) => {
   if (typeof value === 'object' && value !== null) {
     const indent = ' '.repeat((depth + 1) * 4 - 2);
     const entries = Object.entries(value)
-      .map(([key, val]) => `${indent}  ${key}: ${formatValue(val, depth + 1)}`)
+      .map(([key, val]) => `${indent}${key}: ${formatValue(val, depth + 1)}`)
       .join('\n');
     return `{\n${entries}\n${' '.repeat(depth * 4)}}`;
   }
