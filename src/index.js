@@ -13,7 +13,7 @@ const genDiff = (filepath1, filepath2, format = 'stylish') => {
     }
     const diff = compareTrees(file1, file2);
 
-    return `{\n${formatter(diff, format)}\n}`;
+    return formatter(diff, format);
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return `Error: ${error.message}`;
