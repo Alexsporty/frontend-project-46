@@ -1,7 +1,8 @@
 import compareTrees from './compareTrees.js';
 import parser from './parsers.js';
-import formatStylish from './formatters/formatStylish.js';
-import formatPlain from './formatters/formatPlain.js';
+// import formatStylish from './formatters/formatStylish.js';
+// import formatPlain from './formatters/formatPlain.js';
+import formatter from './formatters/formatJson.js';
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
   try {
@@ -11,10 +12,8 @@ const genDiff = (filepath1, filepath2, format = 'stylish') => {
       throw new Error('One of the files could not be parsed.');
     }
     const diff = compareTrees(file1, file2);
-    if (format === 'plain') {
-      return formatPlain(diff);
-    }
-    return `{\n${formatStylish(diff)}\n}`;
+
+    return `{\n${formatter(diff, format)}\n}`;
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return `Error: ${error.message}`;
