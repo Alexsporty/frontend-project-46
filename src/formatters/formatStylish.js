@@ -11,26 +11,27 @@ const formatValue = (value, depth) => {
 };
 const formatStylish = (diff, depth = 1) => {
   const indent = ' '.repeat(4 * depth);
+  const currentIndent = ' '.repeat(4 * (depth - 1));
 
   const result = diff.map((item) => {
     const { key, type } = item;
-    const currentIndent = ' '.repeat(4 * depth - 2);
+    const typeIndent = ' '.repeat(4 * depth - 2);
     
     switch (type) {
       case 'added':
-        return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
+        return `${typeIndent}+ ${key}: ${formatValue(item.val, depth)}`;
       case 'removed':
-        return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
+        return `${typeIndent}- ${key}: ${formatValue(item.val, depth)}`;
       case 'updated':
-        return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
+        return `${typeIndent}- ${key}: ${formatValue(item.val1, depth)}\n${typeIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
       case 'nested':
-        return `{${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}\n}`;
+        return `${typeIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}`;
       default:
-        return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
+        return `${typeIndent}  ${key}: ${formatValue(item.val, depth)}`;
     }
   }).join('\n');
 
-  return result;
+  return `{\n${result}\n${currentIndent}}`;
 };
 
 export default formatStylish;
