@@ -1,6 +1,6 @@
 const formatValue = (value, depth) => {
   if (typeof value === 'object' && value !== null) {
-    const replacer = '  ';
+    const replacer = ' ';
     const indent = replacer.repeat((depth + 1) * 4 - 2);
     const entries = Object.entries(value)
       .map(([key, val]) => `${indent}  ${key}: ${formatValue(val, depth + 1)}`)
