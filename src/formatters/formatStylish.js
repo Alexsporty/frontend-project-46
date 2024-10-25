@@ -18,15 +18,15 @@ const formatStylish = (diff, depth = 1) => {
     
     switch (type) {
       case 'added':
-        return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
+        return `${currentIndent}+ ${key}: ${formatValue(item.val, depth + 1)}`;
       case 'removed':
-        return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
+        return `${currentIndent}- ${key}: ${formatValue(item.val, depth + 1)}`;
       case 'updated':
-        return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
+        return `${currentIndent}- ${key}: ${formatValue(item.val1, depth + 1)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth + 1)}`;
       case 'nested':
-        return `${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent} }`;
+        return `${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}`;
       default:
-        return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
+        return `${currentIndent}  ${key}: ${formatValue(item.val, depth + 1)}`;
     }
   }).join('\n');
 
