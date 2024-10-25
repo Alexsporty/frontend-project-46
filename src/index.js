@@ -14,7 +14,7 @@ const genDiff = (filepath1, filepath2, format = 'stylish') => {
     if (format === 'plain') {
       return formatPlain(diff);
     }
-    return formatStylish(diff);
+    return `{\n${formatStylish(diff)}\n}`;
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return `Error: ${error.message}`;
