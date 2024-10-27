@@ -1,8 +1,6 @@
 import compareTrees from './compareTrees.js';
 import parser from './parsers.js';
-// import formatStylish from './formatters/formatStylish.js';
-// import formatPlain from './formatters/formatPlain.js';
-import formatter from './formatters/formatJson.js';
+import formatter from './formatters/index.js';
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
   try {

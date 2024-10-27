@@ -9,12 +9,14 @@ const formatValue = (value, depth) => {
   }
   return String(value);
 };
-const formatStylish = (diff, depth = 1) => {
-  const indent = ' '.repeat(4 * depth);
 
-  const result = diff.map((item) => {
+const formatStylish = (diff) => {
+  const iter = (data, depth) => {
+  const indent = ' '.repeat(4 * depth);
+  const currentIndent = ' '.repeat(4 * depth - 2);
+
+  const result = data.map((item) => {
     const { key, type } = item;
-    const currentIndent = ' '.repeat(4 * depth - 2);
 
     switch (type) {
       case 'added':
@@ -25,12 +27,16 @@ const formatStylish = (diff, depth = 1) => {
         return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
       case 'nested':
         return `${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}`;
-      default:
+      case 'same':
         return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
+        default:
+          throw new Error(`Unknown type: ${type}`);
     }
   }).join('\n');
 
   return result;
+};
+return `{\n${iter(diff, 1)}\n}`;
 };
 
 export default formatStylish;

@@ -4,7 +4,7 @@ import formatPlain from './formatPlain.js';
 const formatter = (node, format) => {
   switch (format) {
     case 'stylish':
-      return `{\n${formatStylish(node)}\n}`;
+      return formatStylish(node);
 
     case 'plain':
       return formatPlain(node);
