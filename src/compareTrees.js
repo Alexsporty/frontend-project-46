@@ -1,9 +1,10 @@
-import _ from 'lodash'
+import _ from 'lodash';
+
 const isObject = (value) => typeof value === 'object' && value !== null;
 
 const compareTrees = (obj1, obj2) => {
   const keys = [...new Set([...Object.keys(obj1), ...Object.keys(obj2)])];
-  const sortKeys = _.sortBy(keys)
+  const sortKeys = _.sortBy(keys);
 
   const result = sortKeys.map((key) => {
     const value1 = obj1[key];
