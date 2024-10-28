@@ -11,32 +11,32 @@ const formatValue = (value, depth) => {
 };
 
 const formatStylish = (diff) => {
-  const iter = (data, depth) => {
-  const indent = ' '.repeat(4 * depth);
-  const currentIndent = ' '.repeat(4 * depth - 2);
+  const iter = (data, depth = 1) => {
+    const indent = ' '.repeat(4 * depth);
+    const currentIndent = ' '.repeat(4 * depth - 2);
 
-  const result = data.map((item) => {
-    const { key, type } = item;
+    const result = data.map((item) => {
+      const { key, type } = item;
 
-    switch (type) {
-      case 'added':
-        return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
-      case 'removed':
-        return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
-      case 'updated':
-        return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
-      case 'nested':
-        return `${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}`;
-      case 'same':
-        return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
+      switch (type) {
+        case 'added':
+          return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
+        case 'removed':
+          return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
+        case 'updated':
+          return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
+        case 'nested':
+          return `${currentIndent}  ${key}: {\n${iter(item.children, depth + 1)}\n${indent}}`;
+        case 'same':
+          return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
         default:
           throw new Error(`Unknown type: ${type}`);
-    }
-  }).join('\n');
+      }
+    }).join('\n');
 
-  return result;
-};
-return `{\n${iter(diff, 1)}\n}`;
+    return result;
+  };
+  return `{\n${iter(diff, 1)}\n}`;
 };
 
 export default formatStylish;

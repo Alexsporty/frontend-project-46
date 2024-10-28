@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95.65% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>22/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95.65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>22/23</span>
             </div>
         
             
@@ -99,7 +99,13 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -110,11 +116,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -129,9 +137,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,28 +158,34 @@
   }
   return String(value);
 };
-const formatStylish = (diff, depth = 1) =&gt; {
-  const indent = ' '.repeat(4 * depth);
 &nbsp;
-  const result = diff.map((item) =&gt; {
-    const { key, type } = item;
+const formatStylish = (diff) =&gt; {
+  const iter = (data, depth = <span class="branch-0 cbranch-no" title="branch not covered" >1)</span> =&gt; {
+    const indent = ' '.repeat(4 * depth);
     const currentIndent = ' '.repeat(4 * depth - 2);
 &nbsp;
-    switch (type) {
-      case 'added':
-        return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
-      case 'removed':
-        return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
-      case 'updated':
-        return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
-      case 'nested':
-        return `${currentIndent}  ${key}: {\n${formatStylish(item.children, depth + 1)}\n${indent}}`;
-      default:
-        return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
-    }
-  }).join('\n');
+    const result = data.map((item) =&gt; {
+      const { key, type } = item;
 &nbsp;
-  return result;
+      switch (type) {
+        case 'added':
+          return `${currentIndent}+ ${key}: ${formatValue(item.val, depth)}`;
+        case 'removed':
+          return `${currentIndent}- ${key}: ${formatValue(item.val, depth)}`;
+        case 'updated':
+          return `${currentIndent}- ${key}: ${formatValue(item.val1, depth)}\n${currentIndent}+ ${key}: ${formatValue(item.val2, depth)}`;
+        case 'nested':
+          return `${currentIndent}  ${key}: {\n${iter(item.children, depth + 1)}\n${indent}}`;
+        case 'same':
+          return `${currentIndent}  ${key}: ${formatValue(item.val, depth)}`;
+<span class="branch-5 cbranch-no" title="branch not covered" >        default:</span>
+<span class="cstat-no" title="statement not covered" >          throw new Error(`Unknown type: ${type}`);</span>
+      }
+    }).join('\n');
+&nbsp;
+    return result;
+  };
+  return `{\n${iter(diff, 1)}\n}`;
 };
 &nbsp;
 export default formatStylish;
@@ -178,7 +196,7 @@ export default formatStylish;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-27T19:05:01.194Z
+                at 2024-10-27T19:50:55.259Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
