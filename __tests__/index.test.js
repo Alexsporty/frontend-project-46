@@ -13,10 +13,13 @@ describe('Testing the function genDiff', () => {
   test('fileStylish', () => {
     expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(readFile('expectedFileStylish.txt'));
   });
-  test('filePlain', () => {
+  test('format Stylish', () => {
+    expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'stylish')).toEqual(readFile('expectedFileStylish.txt'));
+  });
+  test('format Plain', () => {
     expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'plain')).toEqual(readFile('expectedFilePlain.txt'));
   });
-  test('JSON', () => {
+  test('format JSON', () => {
     expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'json')).toEqual(readFile('expectedFileJson.txt'));
   });
 });
