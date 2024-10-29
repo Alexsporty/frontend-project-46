@@ -5,7 +5,9 @@
   "description": "[![Actions Status](https://github.com/Alexsporty/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Alexsporty/frontend-project-46/actions)",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "cc-before": "codeclimate-test-reporter before-build",
+  "cc-after": "codeclimate-test-reporter after-build --exit-code $?"
   },
   "bin": {
     "gendiff": "bin/gendiff.js"
